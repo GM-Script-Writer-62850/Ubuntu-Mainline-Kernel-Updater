@@ -1,0 +1,13 @@
+#!/bin/bash
+here=`dirname $0`
+echo "Need a couple dependencies"
+sudo apt-get install curl php5-cli
+if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 ]];then
+  echo "You did not install the dependencies"
+	exit
+fi
+mkdir ~/.config/autostart/
+mv $here/*.desktop ~/.config/autostart/
+chmod +x $here/KernelUpdate*
+sudo mv $here/KernelUpdate* /usr/local/bin/
+echo -e "Install Complete\nUpdates will be checked for 60 seconds after login\nIf you want Release Candidates you will need to edit the new startup entry."
