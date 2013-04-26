@@ -5,7 +5,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ];then
 	echo "This is the help info from KernelUpdateScriptGenerator"
 	KernelUpdateScriptGenerator $1
 else
-	KernelUpdateScriptGenerator "$1" "$2" "$3" "$4" "$5" > /tmp/kernel-update
+	KernelUpdateScriptGenerator "$1" "$2" "$3" "$4" "$5" "$6" > /tmp/kernel-update
 	chmod +x /tmp/kernel-update
 	if [ $(cat /tmp/kernel-update | wc -l) -gt 10 ];then
 		notify-send --icon=info -t 10000 "To Upgrade" "Run this in a terminal:\n/tmp/kernel-update"
