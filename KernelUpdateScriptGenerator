@@ -11,6 +11,8 @@ foreach($argv as $key => $val){
 	else if($val=='-v'){
 		if(!isset($argv[$key+1]))
 			break;
+		if(strlen($argv[$key+1])==0)
+			continue;
 		$version=$argv[$key+1];
 		if(!is_numeric(substr($version,0,1)))
 			die("$version is not a version number\n");
@@ -18,6 +20,8 @@ foreach($argv as $key => $val){
 	else if($val=='-r'){
 		if(!isset($argv[$key+1]))
 			break;
+		if(strlen($argv[$key+1])==0)
+			continue;
 		$r=$argv[$key+1];
 	}
 	else if($val=='-h'||$val=='--help'){
