@@ -1,8 +1,9 @@
 GUI Install:<br>
-Download the zip archive (there is a button near the top of the page) and extract it then drag and drop the install file into a terminal window and press enter<br>
-If that does not work type "bash " then repeat the above drag/drop then enter steps<br>
-It will look like <code>bash '/path/to/install'</code><br>
-Type your login password when prompted<br>
+&nbsp;&nbsp;Download the zip archive (there is a button near the top of the page) and extract it<br>
+&nbsp;&nbsp;Drag and drop the install file into a terminal window and press enter<br>
+&nbsp;&nbsp;If that does not work type "bash " then repeat the above step<br>
+&nbsp;&nbsp;It will look like <code>bash '/path/to/install'</code><br>
+&nbsp;&nbsp;Type your login password when prompted<br>
 Terminal Install:<br>
 <pre><code>cd /tmp
 git clone git://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater
