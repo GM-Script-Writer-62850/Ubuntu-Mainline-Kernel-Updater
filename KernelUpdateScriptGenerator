@@ -127,7 +127,7 @@ fi
 wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
 wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-generic_$VER_A."$VER_B"_$arch.deb
 clear
-if [ $(ls linux-*.deb | wc -l) -eq 3 ]  && [ $(ls linux-*.deb | grep "linux-image-extra"| wc -l) -eq 0 ];then
+if [ $(ls linux-*.deb | wc -l) -eq 3 ]  && [ $(ls linux-*.deb | grep "linux-image-extra" | wc -l) -eq 0 ];then
 	echo -e "Warning:\n  linux-image-extra-$VER_A-generic_$VER_A."$VER_B"_$arch.deb is missing\n  It was probally merged with linux-image-$VER_A-generic_$VER_A."$VER_B"_$arch.deb"
 	echo -e "  If you get broken packages run this command to fix it: (Save it somewhere, just to be safe)\n    sudo apt-get purge linux-headers-$VER_A linux-headers-$VER_A-generic linux-image-$VER_A-generic\n"
 	echo "Are you sure you want to continue (y=Yes, n=No) (y)"
