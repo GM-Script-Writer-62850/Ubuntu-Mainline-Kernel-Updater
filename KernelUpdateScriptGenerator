@@ -118,7 +118,7 @@ echo "Care to look at the change log? (y=Yes, n=No) (n)"
 read action
 if [ "$action" == "y" ];then
 	curl $WHERE/CHANGES 2> /dev/null | less
-	echo -e "Now that you read the change log, do you want to upgrade (y=Yes, n=No) (y)"
+	echo "Now that you read the change log, do you want to upgrade (y=Yes, n=No) (y)"
 	read action
 	if [ "$action" == "n" ];then
 		exit
@@ -127,7 +127,15 @@ fi
 wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
 wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-generic_$VER_A."$VER_B"_$arch.deb
 clear
-if [ `ls linux-*.deb | wc -l` -ne 4 ];then
+if [ $(ls linux-*.deb | wc -l) -eq 3 ]  && [ $(ls linux-*.deb | grep "linux-image-extra"| wc -l) -eq 0 ];then
+	echo -e "Warning:\n  linux-image-extra-$VER_A-generic_$VER_A."$VER_B"_$arch.deb is missing\n  It was probally merged with linux-image-$VER_A-generic_$VER_A."$VER_B"_$arch.deb"
+	echo -e "  If you get broken packages run this command to fix it: (Save it somewhere, just to be safe)\n    sudo apt-get purge linux-headers-$VER_A linux-headers-$VER_A-generic linux-image-$VER_A-generic\n"
+	echo "Are you sure you want to continue (y=Yes, n=No) (y)"
+	read action
+	if [ "$action" == "n" ];then
+		exit
+	fi
+elif [ $(ls linux-*.deb | wc -l) -ne 4 ];then
 	echo -e "Failed to download all needed files\nFiles are in $LOC\nGet files from $WHERE\n\nThere should be 4 files, 3 ending with '$arch.deb' and 1 with 'all.deb'\nHere is what we have:"
 	ls $LOC
 	echo -e "\nYou can install what you have by running this command:\n\tsudo dpkg -i $LOC/linux-*.deb\nJust be prepared for broken packages."
