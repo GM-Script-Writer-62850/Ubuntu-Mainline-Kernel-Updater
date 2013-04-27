@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ "$1" == "-h" ] || [ "$1" == "--help" ];then
-  echo "This script sends data to KernelUpdateScriptGenerator"
+	echo "This script sends data to KernelUpdateScriptGenerator"
 	echo "This script saves the update script made by the script to a file and gives the user instructions"
 	echo "This is the help info from KernelUpdateScriptGenerator"
 	KernelUpdateScriptGenerator $1
