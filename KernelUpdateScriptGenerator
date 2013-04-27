@@ -75,7 +75,7 @@ for ($i = 0; $i < $links->length; $i++){
 }
 if(count($arr)>0){
 	$k=$arr[count($arr)-1];
-	shell_exec("notify-send 'Update Available' 'Kernel $k is available.'");
+	shell_exec("notify-send --icon info 'Update Available' 'Kernel $k is available.'");
 	$url=substr($url.$arr2[count($arr2)-1],0,-1);
 	$html=file_get_contents($url);
 	$DOM=new DOMDocument;
