@@ -9,5 +9,6 @@ else
 	chmod +x /tmp/kernel-update
 	if [ $(cat /tmp/kernel-update | wc -l) -gt 10 ];then
 		notify-send --icon=info -t 10000 "To Upgrade" "Run this in a terminal:\n/tmp/kernel-update"
+		echo -e "Run this command to install the new kernel\n\t/tmp/kernel-update"
 	fi
 fi
