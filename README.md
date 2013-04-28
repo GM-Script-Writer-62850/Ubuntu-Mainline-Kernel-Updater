@@ -35,6 +35,7 @@ This would force the script to generate a install script for the latest 3.5 kern
 <code>-r quantal</code> tells the script to use quantal kernels even if you are using raring (13.04) or precise (12.04)<br>
 <code>-no-rc</code> tells the script to ignore release candidate kernels<br>
 <code>-v 3.5</code> tells the script you only want a kernel with a version number starting with 3.5, you can use the entire kernel version number to force a exact version<br>
-<code>/tmp/kernel-update --silent</code> will install the kernel without asking questions, is detected as not installed it will exit with status 1<br>
+<code>/tmp/kernel-update --silent</code> will install the kernel without asking questions<br>
 <code>/tmp/kernel-update --uninstall</code> will purge the kernel it would normally install from the system<br>
-If there is no update <code>/tmp/kernel-update</code> will exit without doing anything, keep in mind that <code>/tmp/kernel-update</code> does not exist until a little over 60 seconds after login
+If there is no update <code>/tmp/kernel-update</code> will exit without doing anything, keep in mind that <code>/tmp/kernel-update</code> does not exist until a little over 60 seconds after login<br>
+If the new kernel is detected as not installed it will exit with status 1, will exit normally if it did not try to install it
