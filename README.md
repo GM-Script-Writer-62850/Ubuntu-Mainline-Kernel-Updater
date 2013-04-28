@@ -26,6 +26,14 @@ unzip Ubuntu-Mainline-Kernel-Updater.zip
 bash Ubuntu-Mainline-Kernel-Updater-master/install
 KernelUpdateChecker -no-rc</code></pre>
 
+If you are in a Recovery Console:
+<pre><code>wget http://pastebin.com/raw.php?i=5UBBzzky -O /tmp/script
+sh /tmp/script</code></pre>
+Alternative:
+<pre><code>curl http://pastebin.com/raw.php?i=5UBBzzky > /tmp/script
+sh /tmp/script</code></pre>
+<a href="http://pastebin.com/5UBBzzky">View Source Code</a>
+
 If you don't want to use curl you can view the source code of every file and save it then install the script
 
 Advanced usage examples and notes:<br>
