@@ -171,7 +171,7 @@ if [ $(ls /boot | grep $VER_A | wc -l) -gt 3 ];then
 		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-generic linux-headers-$VER_C
 	fi
 else
-	echo -e "Looks like the kernel was not installed for some reason\nI dont see it in /boot"
+	echo -e "Looks like the kernel was not installed for some reason\nI don't see it in /boot"
 fi
 echo -e "\n\nAre you ready to Reboot? (y=Yes, n=No) (n)"
 if [ $auto -eq 0 ];then
