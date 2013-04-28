@@ -6,7 +6,7 @@ if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 ]];then
   echo "You did not install the dependencies"
 	exit
 fi
-mkdir ~/.config/autostart/
+mkdir -p ~/.config/autostart/
 mv $here/*.desktop ~/.config/autostart/
 chmod +x $here/KernelUpdate*
 sudo mv $here/KernelUpdate* /usr/local/bin/
