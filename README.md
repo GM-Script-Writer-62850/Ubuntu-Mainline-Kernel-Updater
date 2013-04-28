@@ -1,5 +1,8 @@
 This Updater was made to alert the user of update for mainline kernels and to make installing them noob/newbie friendly.<br>
 You can manually install the kernels from <a target="_blank" href="http://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D">here</a> without using this script.<br>
+<br>
+If you think this looks long and complicated, It is just because I have 6 different install procedures listed here for you to pick from based on your personal preferences, if you want a recommendation just use one of the multi line code blocks<br>
+<br>
 GUI Install:<br>
 &nbsp;&nbsp;Download the zip archive (there is a button near the top of the page) and extract it<br>
 &nbsp;&nbsp;Drag and drop the install file into a terminal window and press enter<br>
