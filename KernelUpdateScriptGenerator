@@ -6,6 +6,7 @@ $NO_RC=false;
 $version=false;
 $r=false;
 $k=false;
+error_reporting(0);
 foreach($argv as $key => $val){
 	if($val=='-no-rc')
 		$NO_RC=true;
@@ -27,6 +28,9 @@ foreach($argv as $key => $val){
 	}
 	else if($val=='-k'){
 		$k='1.0.0-1-generic';// Very low fake kernel version to ensure new kernel is found
+	}
+	else if ($val=='--debug'){
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 	}
 	else if($val=='-h'||$val=='--help'){
 		$script=strrpos($_SERVER["SCRIPT_NAME"],'/');
@@ -53,6 +57,16 @@ echo "echo -e '\\tAccepting kernels compiled for $r'\n";
 echo "echo -e '\\tAccepting kernels with a version higher than $k'\n";
 $url="http://kernel.ubuntu.com/~kernel-ppa/mainline/";
 $html=file_get_contents($url);
+for($i=1;$i<21;$i=$i+1){
+	$html=file_get_contents($url);
+	if(strlen($html)==0)
+		shell_exec("notify-send --icon error 'Kernel Update Checker' 'Unable to connect to the Internet\\nAttempt $i/20'");
+	else
+		break;
+	shell_exec("sleep 11");
+}
+if(strlen($html)==0)
+	die("echo 'No Internet Access'\nexit\n");
 $DOM=new DOMDocument;
 $DOM->loadHTML($html);
 $links=$DOM->getElementsByTagName('a');
