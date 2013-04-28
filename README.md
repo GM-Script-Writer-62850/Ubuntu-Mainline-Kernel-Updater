@@ -32,7 +32,7 @@ sh /tmp/script</code></pre>
 Alternative:
 <pre><code>curl http://pastebin.com/raw.php?i=5UBBzzky > /tmp/script
 sh /tmp/script</code></pre>
-<a href="http://pastebin.com/5UBBzzky">View Source Code</a>
+You can view the <a target="_blank" href="http://pastebin.com/5UBBzzky">source code</a> of that script if you like.
 
 If you don't want to use curl you can view the source code of every file and save it then install the script
 
