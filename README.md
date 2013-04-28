@@ -28,10 +28,13 @@ KernelUpdateChecker -no-rc</code></pre>
 
 If you don't want to use curl you can view the source code of every file and save it then install the script
 
-Advanced usage examples:<br>
+Advanced usage examples and notes:<br>
 <code>KernelUpdateChecker -k -r quantal -no-rc -v 3.5</code><br>
 This would force the script to generate a install script for the latest 3.5 kernel compiled for quantal that is not a release candidate even if you are running a newer kernel<br>
-<code>-k</code> forces the script to make a installer regardless of the current running kernel<br>
+<code>-k</code> forces the script to make a installer regardless of now new the current running kernel is<br>
 <code>-r quantal</code> tells the script to use quantal kernels even if you are using raring (13.04) or precise (12.04)<br>
 <code>-no-rc</code> tells the script to ignore release candidate kernels<br>
-<code>-v 3.5</code> tells the script you only want a kernel with a version number starting with 3.5, you can use the entire kernel version number to force a exact version
+<code>-v 3.5</code> tells the script you only want a kernel with a version number starting with 3.5, you can use the entire kernel version number to force a exact version<br>
+<code>/tmp/kernel-update --silent</code> will install the kernel without asking questions, is detected as not installed it will exit with status 1<br>
+<code>/tmp/kernel-update --uninstall</code> will purge the kernel it would normally install from the system<br>
+If there is no update <code>/tmp/kernel-update</code> will exit without doing anything, keep in mind that <code>/tmp/kernel-update</code> does not exist until a little over 60 seconds after login
