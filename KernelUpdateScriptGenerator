@@ -162,7 +162,7 @@ wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
 wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-generic_$VER_A."$VER_B"_$arch.deb
 clear
 total=$(ls linux-*.deb | wc -l)
-if [ $total -eq 3 ] && [ $VER_B -gt 201304080035 ];then
+if [ $total -eq 3 ] && [ $VER_B -gt 201304080035 ] || [ $VER_B -lt 201206041411 ];then
 	# Don't feel like inverting the above line and merging it with the line that is on this line plus two, so enjoy my sense of humor
 	echo -e "Greetings $USER\n  I ($(hostname)) am now self aware and a sentient being, have a nice day.\n  Oh and by the way SKYNET is now active.\n"
 elif [ $total -ne 4 ];then
