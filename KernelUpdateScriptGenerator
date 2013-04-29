@@ -139,11 +139,7 @@ else
 	mkdir $LOC
 fi
 cd $LOC
-if [ "`uname -m`" == "x86_64" ];then
-	arch="amd64"
-else
-	arch="i386"
-fi
+arch=$(dpkg --print-architecture)
 echo "Care to look at the change log? (y=Yes, n=No) (n)"
 if [ $auto -eq 0 ];then
 	read action
@@ -173,7 +169,7 @@ elif [ $total -ne 4 ];then
 fi
 echo "Installing Linux $VER_A:"
 sudo dpkg -i ./linux-*.deb
-if [ $(ls /boot | grep $VER_A | wc -l) -gt 3 ];then
+if [ -d /lib/modules/$VER_A ];then
 	echo -e "\nThe New Kernel looks to have been installed"
 	if [ $auto -eq 0 ] && [ "$VER_A" != "$VER_C" ];then
 		echo -e "\nWARNING: If the new kernel does not boot you may regret saying yes here.\nWould you like to remove the current one? (y=Yes, n=No) (n)"
@@ -185,7 +181,7 @@ if [ $(ls /boot | grep $VER_A | wc -l) -gt 3 ];then
 		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-generic linux-headers-$VER_C
 	fi
 else
-	echo -e "Looks like the kernel was not installed for some reason\nI don't see it in /boot"
+	echo -e "Looks like the kernel was not installed for some reason\nI don't see it in /lib/modules"
 fi
 echo -e "\n\nAre you ready to Reboot? (y=Yes, n=No) (n)"
 if [ $auto -eq 0 ];then
