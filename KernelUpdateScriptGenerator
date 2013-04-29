@@ -169,7 +169,7 @@ elif [ $total -ne 4 ];then
 fi
 echo "Installing Linux $VER_A:"
 sudo dpkg -i ./linux-*.deb
-if [ -d /lib/modules/$VER_A ];then
+if [ -d /lib/modules/$VER_A-generic ];then
 	echo -e "\nThe New Kernel looks to have been installed"
 	if [ $auto -eq 0 ] && [ "$VER_A" != "$VER_C" ];then
 		echo -e "\nWARNING: If the new kernel does not boot you may regret saying yes here.\nWould you like to remove the current one? (y=Yes, n=No) (n)"
