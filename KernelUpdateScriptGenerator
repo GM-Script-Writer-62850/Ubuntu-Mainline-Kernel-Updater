@@ -60,7 +60,7 @@ $html=file_get_contents($url);
 for($i=1;$i<21;$i=$i+1){
 	$html=file_get_contents($url);
 	if(strlen($html)==0)
-		shell_exec("notify-send --icon error 'Kernel Update Checker' 'Unable to connect to the Internet\\nAttempt $i/20'");
+		shell_exec("notify-send --icon error 'Kernel Update Checker' 'Unable to connect to kernel.ubuntu.com\\nAttempt $i/20'");
 	else
 		break;
 	shell_exec("sleep 11");
