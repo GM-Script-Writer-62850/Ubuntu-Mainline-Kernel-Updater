@@ -18,7 +18,7 @@ Type your login password when prompted
 <hr>
 Terminal Install:<br>
 <blockquote>
-Step 1: cd to /tmp<br>
+Step 1: <code>cd</code> to <code>/tmp</code><br>
 <pre><code>cd /tmp</code></pre>
 
 Step 2: Download (Method 1/5: Use <code>git</code>)
