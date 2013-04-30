@@ -48,15 +48,20 @@ Step 3: Run the <code>install</code> script (If you did <b>NOT</b> use <code>git
 
 Step 4: Check for kernel update (If you would like a release canidate kerenl remove <code>-no-rc</code> from this command)
 <pre><code>KernelUpdateChecker -no-rc</code></pre>
+
+Step 5: Install the new kerenl (That is the reason you are here right?)
+<pre><code>/tmp/kernel-update</code></pre>
 </blockquote>
 <hr>
 Recovery Console: (Also works if you are too lazy to do the above)<blockquote>
 <pre><code>curl http://pastebin.com/raw.php?i=hHS6rf6w | tr -d '\r' > /tmp/script
-sh /tmp/script</code></pre>
+sh /tmp/script
+/tmp/kernel-update</code></pre>
 Alternative:
 <pre><code>wget http://pastebin.com/raw.php?i=hHS6rf6w -O /tmp/script.bug
 tr -d $'\r' &lt; script.bug &gt; script
-sh /tmp/script</code></pre>
+sh /tmp/script
+/tmp/kernel-update</code></pre>
 You can view the <a target="_blank" href="http://pastebin.com/hHS6rf6w">source code</a> of that script if you like.<br>
 </blockquote>
 <hr>
