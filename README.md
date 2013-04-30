@@ -34,7 +34,7 @@ If you are in a Recovery Console:
 sh /tmp/script</code></pre>
 Alternative:
 <pre><code>wget http://pastebin.com/raw.php?i=5UBBzzky -O /tmp/script.bug
-tr -d $'\r' < script.bug > script
+tr -d $'\r' &lt; script.bug &gt; script
 sh /tmp/script</code></pre>
 You can view the <a target="_blank" href="http://pastebin.com/5UBBzzky">source code</a> of that script if you like.
 
