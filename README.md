@@ -49,7 +49,7 @@ Step 3: Run the <code>install</code> script (If you did <b>NOT</b> use <code>git
 Step 4: Check for kernel update (If you would like a release canidate kerenl remove <code>-no-rc</code> from this command)
 <pre><code>KernelUpdateChecker -no-rc</code></pre>
 
-Step 5: Install the new kerenl (That is the reason you are here right?)
+Step 5: Install the new kernel (That is the reason you are here right?)
 <pre><code>/tmp/kernel-update</code></pre>
 </blockquote>
 <hr>
