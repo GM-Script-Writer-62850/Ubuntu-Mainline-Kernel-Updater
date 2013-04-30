@@ -53,7 +53,7 @@ Step 5: Install the new kernel (That is the reason you are here right?)
 <pre><code>/tmp/kernel-update</code></pre>
 </blockquote>
 <hr>
-Recovery Console: (Also works if you are too lazy to do the above)<blockquote>
+Recovery Console Install: (Also works if you are too lazy to do the above)<blockquote>
 <pre><code>curl http://pastebin.com/raw.php?i=hHS6rf6w | tr -d '\r' > /tmp/script
 sh /tmp/script
 /tmp/kernel-update</code></pre>
