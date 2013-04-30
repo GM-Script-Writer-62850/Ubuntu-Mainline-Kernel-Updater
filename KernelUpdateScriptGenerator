@@ -135,7 +135,11 @@ LOC="/tmp/kernel-$VER_A"
 if [ -d "$LOC" ];then
 	clear
 	echo -e "Warning: This script has been run already\nFiles are in $LOC\nDelete existing downloads? (y=Yes, n=No) (y)"
-	read action
+	if [ $auto -eq 0 ];then
+		read action
+	else
+		action="n"
+	fi
 	if [ ! "$action" == "n" ];then
 		rm $LOC/* > /dev/null
 	fi
