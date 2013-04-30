@@ -59,7 +59,7 @@ Alternative:
 <pre><code>wget http://pastebin.com/raw.php?i=hHS6rf6w -O /tmp/script.bug
 tr -d $'\r' &lt; script.bug &gt; script
 sh /tmp/script</code></pre>
-You can view the <a target="_blank" href="http://pastebin.com/5UBBzzky">source code</a> of that script if you like.<br>
+You can view the <a target="_blank" href="http://pastebin.com/hHS6rf6w">source code</a> of that script if you like.<br>
 </blockquote>
 <hr>
 Advanced usage examples and notes:<blockquote>
