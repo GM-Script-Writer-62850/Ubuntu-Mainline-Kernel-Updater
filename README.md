@@ -1,3 +1,7 @@
+<!--
+   I suggest reading this on the webpage at github:
+   https://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater#readme
+-->
 About:<blockquote>
 This Updater was made to alert the user of update for mainline kernels and to make installing them noob/newbie friendly.<br>
 You can manually install the kernels from <a target="_blank" href="http://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D">here</a> without using this script.<br>
