@@ -119,7 +119,11 @@ if [ "$1" == "--uninstall" ];then
 	if [ "$VER_A" == "$VER_C" ];then
 		echo -e "WARNING:\n\tYou are about to un-install the current running kernel,\n\tif you don't have a replacement kernel installed,\n\tyou will not be able to boot."
 	fi
-	sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-generic linux-headers-$VER_A
+	if [ $(dpkg-query -l "linux-image-extra-$VER_A-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
+		sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-generic linux-headers-$VER_A
+	else
+		sudo apt-get purge linux-{headers,image}-$VER_A-generic linux-headers-$VER_A
+	fi
 	exit
 elif [ "$1" == "--silent" ];then
 	auto=1
@@ -179,6 +183,11 @@ if [ -d /lib/modules/$VER_A-generic ];then
 	fi
 	if [ "$action" == "y" ];then
 		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-generic linux-headers-$VER_C
+		if [ $(dpkg-query -l "linux-image-extra-$VER_C-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
+			sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-generic linux-headers-$VER_C
+		else
+			sudo apt-get purge linux-{headers,image}-$VER_C-generic linux-headers-$VER_C
+		fi
 	fi
 else
 	echo -e "Looks like the kernel was not installed for some reason\nI don't see it in /lib/modules"
