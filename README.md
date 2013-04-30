@@ -53,10 +53,10 @@ Step 4: Check for kernel update (If you would like a release canidate kerenl rem
 </blockquote>
 <hr>
 Recovery Console: (Also works if you are too lazy to do the above)<blockquote>
-<pre><code>curl http://pastebin.com/raw.php?i=5UBBzzky | tr -d '\r' > /tmp/script
+<pre><code>curl http://pastebin.com/raw.php?i=hHS6rf6w | tr -d '\r' > /tmp/script
 sh /tmp/script</code></pre>
 Alternative:
-<pre><code>wget http://pastebin.com/raw.php?i=5UBBzzky -O /tmp/script.bug
+<pre><code>wget http://pastebin.com/raw.php?i=hHS6rf6w -O /tmp/script.bug
 tr -d $'\r' &lt; script.bug &gt; script
 sh /tmp/script</code></pre>
 You can view the <a target="_blank" href="http://pastebin.com/5UBBzzky">source code</a> of that script if you like.<br>
