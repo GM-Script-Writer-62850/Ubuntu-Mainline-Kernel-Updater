@@ -1,9 +1,10 @@
 #!/bin/bash
-here=`dirname $0`
+here=$(dirname $0)
 echo "Need a couple dependencies"
-sudo apt-get install curl php5-cli
-if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 ]];then
-  echo "You did not install the dependencies"
+sudo apt-get install -m curl php5-cli libnotify-bin
+if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 || ! -f /usr/bin/notify-send ]];then
+	echo "You did not install the dependencies"
+	echo "You need have the curl, php5, and notify-send commands advailable for use"
 	exit
 fi
 mkdir -p ~/.config/autostart/
