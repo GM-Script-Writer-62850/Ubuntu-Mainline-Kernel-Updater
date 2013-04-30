@@ -30,11 +30,12 @@ bash Ubuntu-Mainline-Kernel-Updater-master/install
 KernelUpdateChecker -no-rc</code></pre>
 
 If you are in a Recovery Console:
-<pre><code>wget http://pastebin.com/raw.php?i=5UBBzzky -O /tmp/script
+<pre><code>curl http://pastebin.com/raw.php?i=5UBBzzky | tr -d '\r' > /tmp/script
+sh /tmp/script</code></pre>
+<pre><code>wget http://pastebin.com/raw.php?i=5UBBzzky -O /tmp/script.bug
+tr -d $'\r' < script.bug > script
 sh /tmp/script</code></pre>
 Alternative:
-<pre><code>curl http://pastebin.com/raw.php?i=5UBBzzky > /tmp/script
-sh /tmp/script</code></pre>
 You can view the <a target="_blank" href="http://pastebin.com/5UBBzzky">source code</a> of that script if you like.
 
 If you don't want to use curl you can view the source code of every file and save it then install the script
