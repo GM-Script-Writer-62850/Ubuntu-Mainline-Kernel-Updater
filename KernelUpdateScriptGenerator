@@ -131,14 +131,14 @@ else
 	auto=0
 fi
 if [ "$1" == "--download-only" ];then
-	download=1;
+	download=1
 else
-	download=0;
+	download=0
 fi
 if [ -n "$2" ];then
 	if [ "$2" == "--download-only" ];then
-		download=1;
-	elif [ "$2 == "--silent" ];then
+		download=1
+	elif [ "$2" == "--silent" ];then
 		auto=1
 	fi
 fi
