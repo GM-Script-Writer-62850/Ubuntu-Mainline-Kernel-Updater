@@ -130,6 +130,18 @@ elif [ "$1" == "--silent" ];then
 else
 	auto=0
 fi
+if [ "$1" == "--download-only" ];then
+	download=1;
+else
+	download=0;
+fi
+if [ -n "$2" ];then
+	if [ "$2" == "--download-only" ];then
+		download=1;
+	elif [ "$2 == "--silent" ];then
+		auto=1
+	fi
+fi
 
 LOC="/tmp/kernel-$VER_A"
 if [ -d "$LOC" ];then
@@ -173,7 +185,12 @@ elif [ $total -ne 4 ];then
 	echo -e "Failed to download all needed files\nFiles are in $LOC\nGet files from $WHERE\n\nThere should be 4 files, 3 ending with '$arch.deb' and 1 with 'all.deb'\nHere is what we have:"
 	ls $LOC
 	echo -e "\nYou can install what you have by running this command:\n\tsudo dpkg -i $LOC/linux-*.deb\nJust be prepared for broken packages."
-	exit
+	exit 1
+fi
+if [ $download -eq 1 ];then
+	echo -e "Packages have been downloaded to $LOC\nHere is a list:"
+	ls $LOC
+	exit 0
 fi
 echo "Installing Linux $VER_A:"
 sudo dpkg -i ./linux-*.deb
