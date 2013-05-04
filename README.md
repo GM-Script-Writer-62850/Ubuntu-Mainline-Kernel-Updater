@@ -73,7 +73,7 @@ This would force the script to generate a install script for the latest 3.5 kern
 <code>-no-rc</code> tells the script to ignore release candidate kernels<br>
 <code>-v 3.5</code> tells the script you only want a kernel with a version number starting with 3.5, you can use the entire kernel version number to force a exact version<br>
 <code>/tmp/kernel-update --silent</code> will install the kernel without asking questions<br>
-<code>/tmp/kernel-update --download-only</code> will download the script, tell you were it downloaded it to, list the downloaded files and exit
+<code>/tmp/kernel-update --download-only</code> will download the script, tell you were it downloaded it to, list the downloaded files and exit<br>
 <code>/tmp/kernel-update --uninstall</code> will purge the kernel it would normally install from the system<br>
 If there is no update <code>/tmp/kernel-update</code> will exit without doing anything, keep in mind that <code>/tmp/kernel-update</code> does not exist until a little over 60 seconds after login<br>
 If the new kernel is detected as not installed it will exit with status 1, will exit normally if it did not try to install it
