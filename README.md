@@ -58,8 +58,7 @@ Recovery Console Install: (Also works if you are too lazy to do the above)<block
 sh /tmp/script
 /tmp/kernel-update</code></pre>
 Alternative:
-<pre><code>wget http://pastebin.com/raw.php?i=hHS6rf6w -O /tmp/script.bug
-tr -d $'\r' &lt; script.bug &gt; script
+<pre><code>wget http://pastebin.com/raw.php?i=hHS6rf6w -O- | tr -d '\r' > /tmp/script
 sh /tmp/script
 /tmp/kernel-update</code></pre>
 You can view the <a target="_blank" href="http://pastebin.com/hHS6rf6w">source code</a> of that script if you like.<br>
