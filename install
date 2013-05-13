@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -n "$BASH_VERSION" ];then
+	echo "It appears you are using dash instead of dash or sh, you must use bash or rbash"
+	exit
+fi
 here=$(dirname $0)
 echo "Need a couple dependencies"
 sudo apt-get install -m curl php5-cli libnotify-bin
