@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -n "$BASH_VERSION" ];then
+if [ -z "$BASH_VERSION" ];then
 	echo "It appears you are using dash or sh, you must use bash or rbash to run this script"
 	exit
 fi
