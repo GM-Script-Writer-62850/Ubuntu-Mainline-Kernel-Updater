@@ -65,7 +65,7 @@ You can view the <a target="_blank" href="http://pastebin.com/hHS6rf6w">source c
 </blockquote>
 <hr>
 Advanced usage examples and notes:<blockquote>
-<code>KernelUpdateChecker -k -r quantal -no-rc -v 3.5</code><br>
+<code>KernelUpdateChecker -f -r quantal -no-rc -v 3.5</code><br>
 This would force the script to generate a install script for the latest 3.5 kernel compiled for quantal that is not a release candidate even if you are running a newer kernel<br>
 <code>-f</code> forces the script to make a installer regardless of now new the current running kernel is<br>
 <code>-r quantal</code> tells the script to use quantal kernels even if you are using raring (13.04) or precise (12.04)<br>
