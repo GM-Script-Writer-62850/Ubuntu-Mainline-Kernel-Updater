@@ -26,7 +26,7 @@ foreach($argv as $key => $val){
 			continue;
 		$r=$argv[$key+1];
 	}
-	else if($val=='-k' || $val=='-f'){
+	else if($val=='-k'||$val=='-f'){
 		$k='1.0.0-1-generic';// Very low fake kernel version to ensure new kernel is found
 	}
 	else if ($val=='--debug'){
@@ -73,6 +73,12 @@ $links=$DOM->getElementsByTagName('a');
 $arr=array();
 $arr2=array();
 $k=explode('-',$k);
+if(substr($k[0],-2)=='.0')
+	$k[0]=substr($k[0],0,-2);
+if(!is_bool(strpos($k[1],'rc')))
+	$k=$k[0].'-'.substr($k[1],strpos($k[1],'rc'));
+else
+	$k=$k[0];
 $dir='';
 for ($i = 0; $i < $links->length; $i++){
 	$name=substr($links->item($i)->nodeValue,1,-1);
@@ -80,8 +86,8 @@ for ($i = 0; $i < $links->length; $i++){
 		if(($NO_RC && strpos($name,'-rc')>0)||(!is_bool($version) && substr($name,0,strlen($version))!=$version))
 			continue;
 		$name2=substr($name,0,strpos($name,"-$r"));
-		if(version_compare($name,$k[0])==1){
-			$k[0]=$name2;
+		if(version_compare($name2,$k)==1){
+			$k=$name2;
 			array_push($arr,$name2);
 			array_push($arr2,'v'.$name.'/');
 		}
