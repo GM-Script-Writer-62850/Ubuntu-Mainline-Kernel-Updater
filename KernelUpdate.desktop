@@ -5,6 +5,7 @@ Type=Application
 Name=Kernel Update
 Comment=Checks for new Linux Kernel
 Exec=sh -c 'sleep 60;KernelUpdateChecker -no-rc'
+X-GNOME-Autostart-enabled=true
 OnlyShowIn=XFCE;
 StartupNotify=false
 Terminal=false
