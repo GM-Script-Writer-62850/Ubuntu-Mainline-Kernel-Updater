@@ -6,7 +6,7 @@ About:<blockquote>
 This Updater was made to alert the user of update for mainline kernels and to make installing them noob/newbie friendly.<br>
 You can manually install the kernels from <a target="_blank" href="http://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D">here</a> without using this script.<br>
 <br>
-If you think this looks long and complicated, It is just because I have there are 5 different ways you can download this project based on your personal preferences. If you want a recommendation just use either <i>Terminal Install</i> or <i>Recovery Console Install</i></blockquote>
+If you think this looks long and complicated, it is just because I have listed 5 different ways you can download this project, based on your personal preferences. If you want a recommendation just use either <i>Terminal Install</i> or <i>Recovery Console Install</i></blockquote>
 <hr>
 GUI Install:<blockquote>
 Download the zip archive (there is a button near the top of the page) and extract it<br>
