@@ -6,7 +6,7 @@ About:<blockquote>
 This Updater was made to alert the user of update for mainline kernels and to make installing them noob/newbie friendly.<br>
 You can manually install the kernels from <a target="_blank" href="http://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D">here</a> without using this script.<br>
 <br>
-If you think this looks long and complicated, It is just because I have there are 5 different ways you can download this project based on your personal preferences. If you want a recommendation just use either <i>Terminal Install</i> or <i>Recovery Console Install</i></blockquote>
+If you think this looks long and complicated, it is just because I have listed 5 different ways you can download this project, based on your personal preferences. If you want a recommendation just use either <i>Terminal Install</i> or <i>Recovery Console Install</i></blockquote>
 <hr>
 GUI Install:<blockquote>
 Download the zip archive (there is a button near the top of the page) and extract it<br>
@@ -46,11 +46,11 @@ Step 3: Run the <code>install</code> script (If you used <code>git</code> for <i
 Step 3: Run the <code>install</code> script (If you did <b>NOT</b> use <code>git</code> for <i>Step 2</i>)
 <pre><code>bash Ubuntu-Mainline-Kernel-Updater-master/install</code></pre>
 
-Step 4: Check for kernel update (If you would like a release canidate kerenl remove <code>-no-rc</code> from this command)
+Step 4: Check for kernel update (If you would like a release candidate kernel remove <code>-no-rc</code> from this command)
 <pre><code>KernelUpdateChecker -no-rc
 # If you are using Raring and want the latest 3.9 kernel run this instead
 KernelUpdateChecker -v 3.9 -r saucy
-# You can inastall 3.10 but it will break some things in raring like nvidia/amd driver as well as virtualbox
+# You can install 3.10 but it will break some things in raring like nvidia/amd driver as well as virtualbox
 </code></pre>
 
 Step 5: Install the new kernel (That is the reason you are here right?)
