@@ -46,11 +46,11 @@ Step 3: Run the <code>install</code> script (If you used <code>git</code> for <i
 Step 3: Run the <code>install</code> script (If you did <b>NOT</b> use <code>git</code> for <i>Step 2</i>)
 <pre><code>bash Ubuntu-Mainline-Kernel-Updater-master/install</code></pre>
 
-Step 4: Check for kernel update (If you would like a release canidate kerenl remove <code>-no-rc</code> from this command)
+Step 4: Check for kernel update (If you would like a release candidate kernel remove <code>-no-rc</code> from this command)
 <pre><code>KernelUpdateChecker -no-rc
 # If you are using Raring and want the latest 3.9 kernel run this instead
 KernelUpdateChecker -v 3.9 -r saucy
-# You can inastall 3.10 but it will break some things in raring like nvidia/amd driver as well as virtualbox
+# You can install 3.10 but it will break some things in raring like nvidia/amd driver as well as virtualbox
 </code></pre>
 
 Step 5: Install the new kernel (That is the reason you are here right?)
