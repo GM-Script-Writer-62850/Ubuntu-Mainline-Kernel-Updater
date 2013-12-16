@@ -12,7 +12,7 @@ if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 || ! -f /usr/bin/notify-send ]];t
 	exit
 fi
 mkdir -p ~/.config/autostart/
-mv $here/*.desktop ~/.config/autostart/
+cp $here/*.desktop ~/.config/autostart/
 chmod +x $here/KernelUpdate*
 sudo mv $here/KernelUpdate* /usr/local/bin/
 echo -e "Install Complete\nUpdates will be checked for 60 seconds after login\nIf you want Release Candidates you will need to edit the new startup entry."
