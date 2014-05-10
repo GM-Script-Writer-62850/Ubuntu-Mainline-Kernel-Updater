@@ -33,11 +33,11 @@ Step 2: Download (Method 3/5: Use <code>curl</code> to download a zip archive an
 unzip Ubuntu-Mainline-Kernel-Updater.zip</code></pre>
 
 Step 2: Download (Method 4/5: Use <code>wget</code> to download a tar.gz archive and extract it)
-<pre><code>wget https://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater/archive/master.tar.gz -O Ubuntu-Mainline-Kernel-Updater.zip
+<pre><code>wget https://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater/archive/master.tar.gz -O Ubuntu-Mainline-Kernel-Updater.tar.gz
 tar -zxvf Ubuntu-Mainline-Kernel-Updater-master.tar.gz</code></pre>
 
 Step 2: Download (Method 5/5: Use <code>curl</code> to download a tar.gz archive and extract it)
-<pre><code>curl https://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater/archive/master.tar.gz > Ubuntu-Mainline-Kernel-Updater.zip
+<pre><code>curl https://github.com/GM-Script-Writer-62850/Ubuntu-Mainline-Kernel-Updater/archive/master.tar.gz > Ubuntu-Mainline-Kernel-Updater.tar.gz
 tar -zxvf Ubuntu-Mainline-Kernel-Updater-master.tar.gz</code></pre>
 
 Step 3: Run the <code>install</code> script (If you used <code>git</code> for <i>Step 2</i>)
