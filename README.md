@@ -72,6 +72,7 @@ Advanced usage examples and notes:<blockquote>
 <code>KernelUpdateChecker -f -r quantal -no-rc -v 3.5</code><br>
 This would force the script to generate a install script for the latest 3.5 kernel compiled for quantal that is not a release candidate even if you are running a newer kernel<br>
 <code>-f</code> forces the script to make a installer regardless of now new the current running kernel is<br>
+<code>-l</code> tells the script to use lowlatency kernels<br>
 <code>-r quantal</code> tells the script to use quantal kernels even if you are using raring (13.04) or precise (12.04), defaults to the output of <code>lsb_release -cs</code><br>
 <code>-no-rc</code> tells the script to ignore release candidate kernels<br>
 <code>-v 3.5</code> tells the script you only want a kernel with a version number starting with 3.5, you can use the entire kernel version number to force a exact version<br>
