@@ -6,6 +6,7 @@ $NO_RC=false;
 $version=false;
 $r=false;
 $k=false;
+$l=false;
 error_reporting(0);
 foreach($argv as $key => $val){
 	if($val=='-no-rc')
@@ -41,8 +42,12 @@ foreach($argv as $key => $val){
 		echo "Options:\n\t-no-rc sets the script to ignore Release Candidate versions\n";
 		echo "\t-f tells the script to generate a installer regardless of the current running kernel\n";
 		echo "\t-r overrides the release version\n\t\teg: `".$script." -r raring` \n\t\tWould mean to a only kernels for raring even if you are using quantal\n";
-		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8` \n\t\tWould mean to a only accept kernels starting with 3.8 in the version number";
+		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8` \n\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
+		echo "\t-l tells the script to use lowlatency kernels instead of generic (experamental)";
 		die("\n");
+	}
+	else if($val=='-l'){
+		$l=true;
 	}
 }
 if(is_bool($r))
@@ -55,6 +60,7 @@ echo "echo -e '\\t".(!$NO_RC?"Accept":"Reject")."ing Release Candidates'\n";
 echo "echo -e '\\tAccepting Latest".(is_bool($version)?'':' '.$version)." Kernel'\n";
 echo "echo -e '\\tAccepting kernels compiled for $r'\n";
 echo "echo -e '\\tAccepting kernels with a version higher than $k'\n";
+echo "echo -e '\\tAccepting ".($l?'lowlatency':'generic')." kernels'\n";
 $url="http://kernel.ubuntu.com/~kernel-ppa/mainline/";
 $html=file_get_contents($url);
 for($i=1;$i<21;$i=$i+1){
@@ -115,7 +121,7 @@ else
 echo "\nWHERE=\"$url\"\n";
 echo "VER_A=\"$a\"\n";
 echo "VER_B=\"$b\"\n";
-echo "VER_C=\"".str_replace('-generic','',substr(shell_exec("uname -r"),0,-1))."\"\n\n";
+echo "VER_C=\"".str_replace(Array('-generic','-lowlatency'),'',substr(shell_exec("uname -r"),0,-1))."\"\n\n";
 ?>
 echo -e '\nInformation:'
 echo -e "\tOrigin: \n\t\t$WHERE\n\tKernel Version:\n\t\t$VER_A"
@@ -126,9 +132,9 @@ if [ "$1" == "--uninstall" ];then
 		echo -e "WARNING:\n\tYou are about to un-install the current running kernel,\n\tif you don't have a replacement kernel installed,\n\tyou will not be able to boot."
 	fi
 	if [ $(dpkg-query -l "linux-image-extra-$VER_A-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
-		sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-generic linux-headers-$VER_A
+		sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	else
-		sudo apt-get purge linux-{headers,image}-$VER_A-generic linux-headers-$VER_A
+		sudo apt-get purge linux-{headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	fi
 	exit
 elif [ "$1" == "--silent" ];then
@@ -181,7 +187,7 @@ if [ "$action" == "y" ];then
 	fi
 fi
 wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-generic_$VER_A."$VER_B"_$arch.deb
+wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
 clear
 total=$(ls linux-*.deb | wc -l)
 if [[ $total -eq 3 && ( $VER_B -gt 201304080035 || $VER_B -lt 201206041411 ) ]];then
@@ -200,7 +206,7 @@ if [ $download -eq 1 ];then
 fi
 echo "Installing Linux $VER_A:"
 sudo dpkg -i ./linux-*.deb
-if [ -d /lib/modules/$VER_A-generic ];then
+if [ -d /lib/modules/$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> ];then
 	echo -e "\nThe New Kernel looks to have been installed"
 	if [ $auto -eq 0 ] && [ "$VER_A" != "$VER_C" ];then
 		echo -e "\nWARNING: If the new kernel does not boot you may regret saying yes here.\nWould you like to remove the current one? (y=Yes, n=No) (n)"
@@ -209,11 +215,11 @@ if [ -d /lib/modules/$VER_A-generic ];then
 		action="n"
 	fi
 	if [ "$action" == "y" ];then
-		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-generic linux-headers-$VER_C
-		if [ $(dpkg-query -l "linux-image-extra-$VER_C-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
-			sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-generic linux-headers-$VER_C
+		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
+		if [ $(dpkg-query -l "linux-image-extra-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?>" > /dev/null 2>&1;echo $?) -eq 0 ];then
+			sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
 		else
-			sudo apt-get purge linux-{headers,image}-$VER_C-generic linux-headers-$VER_C
+			sudo apt-get purge linux-{headers,image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
 		fi
 	fi
 else
