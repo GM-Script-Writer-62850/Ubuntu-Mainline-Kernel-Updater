@@ -84,3 +84,9 @@ This would force the script to generate a install script for the latest 3.5 kern
 If there is no update <code>/tmp/kernel-update</code> will exit without doing anything, keep in mind that <code>/tmp/kernel-update</code> does not exist until a little over 60 seconds after login<br>
 If the new kernel is detected as not installed it will exit with status 1, will exit normally if it did not try to install it
 </blockquote>
+<hr>
+Uninstallation:<blockquote>
+These 2 commands will uninstall the Kernel Updater
+<pre>rm ~/.config/autostart/KernelUpdate.desktop
+sudo rm /usr/local/bin/KernelUpdate{Checker,ScriptGenerator}</pre>
+</blockquote>
