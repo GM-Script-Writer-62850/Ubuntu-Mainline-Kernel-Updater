@@ -23,7 +23,7 @@ foreach($argv as $key => $val){
 		if(!is_numeric(substr($version,0,1)))
 			die("$version is not a version number\n");
 	}
-	else if($val=='-r'$val=='--release'){
+	else if($val=='-r'||$val=='--release'){
 		if(!isset($argv[$key+1]))
 			break;
 		if(strlen($argv[$key+1])==0)
