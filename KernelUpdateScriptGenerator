@@ -3,15 +3,18 @@
 // This is a client side php script, as such it needs the php5-cli package to work
 // This script generates a bash script
 $NO_RC=false;
+$NO_Header=false;
 $version=false;
 $r=false;
 $k=false;
 $l=false;
 error_reporting(0);
 foreach($argv as $key => $val){
-	if($val=='-no-rc')
+	if($val=='-no-rc'||val=='--no-rc')
 		$NO_RC=true;
-	else if($val=='-v'){
+	else if($val=="-nh"||val=="--no-header")
+		$NO_Header=true;
+	else if($val=='-v'||$val=='--version'){
 		if(!isset($argv[$key+1]))
 			break;
 		if(strlen($argv[$key+1])==0)
@@ -20,14 +23,14 @@ foreach($argv as $key => $val){
 		if(!is_numeric(substr($version,0,1)))
 			die("$version is not a version number\n");
 	}
-	else if($val=='-r'){
+	else if($val=='-r'$val=='--release'){
 		if(!isset($argv[$key+1]))
 			break;
 		if(strlen($argv[$key+1])==0)
 			continue;
 		$r=$argv[$key+1];
 	}
-	else if($val=='-k'||$val=='-f'){
+	else if($val=='-k'||$val=='-f'||$val=='--force'){
 		$k='1.0.0-1-generic';// Very low fake kernel version to ensure new kernel is found
 	}
 	else if ($val=='--debug'){
@@ -42,11 +45,12 @@ foreach($argv as $key => $val){
 		echo "Options:\n\t-no-rc sets the script to ignore Release Candidate versions\n";
 		echo "\t-f tells the script to generate a installer regardless of the current running kernel\n";
 		echo "\t-r overrides the release version\n\t\teg: `".$script." -r raring`\n\t\tWould mean to a only kernels for raring even if you are using quantal\n\t\teg: `".$script." -r \\*`\n\t\tWould mean any release, the asterisk needs to be escaped (backslash or single quotes)\n";
-		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8` \n\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
-		echo "\t-l tells the script to use lowlatency kernels instead of generic (experimental)";
+		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8`\n\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
+		echo "\t-l tells the script to use lowlatency kernels instead of generic (experamental)";
+		echo "\t-nh tells the script to not download the linux header packages (experamental)";
 		die("\n");
 	}
-	else if($val=='-l'){
+	else if($val=='-l'||$val=='--lowlatency'){
 		$l=true;
 	}
 }
@@ -122,10 +126,13 @@ echo "\nWHERE=\"$url\"\n";
 echo "VER_A=\"$a\"\n";
 echo "VER_B=\"$b\"\n";
 echo "VER_C=\"".str_replace(Array('-generic','-lowlatency'),'',substr(shell_exec("uname -r"),0,-1))."\"\n\n";
+echo "NoHeader=".($NO_Header?1:0);
 ?>
+
 echo -e '\nInformation:'
 echo -e "\tOrigin: \n\t\t$WHERE\n\tKernel Version:\n\t\t$VER_A"
 echo -e "\tRelease Date:\n\t\t${VER_B:0:4}/${VER_B:4:2}/${VER_B:6:2} @ ${VER_B:8:2}:${VER_B:10:2} (YYYY/MM/DD @ HH:MM)\n"
+echo -e "\tInstall Linux Header Package:\n\t\t<?php echo $NO_Header?'No':'Yes'; ?>"
 
 if [ "$1" == "--uninstall" ];then
 	if [ "$VER_A" == "$VER_C" ];then
@@ -186,10 +193,18 @@ if [ "$action" == "y" ];then
 		exit
 	fi
 fi
-wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+# If I don't need the header package do I need the image-extra package?
+if [ $NoHeader -eq 1 ];then
+	wget -nc $WHERE/linux-{image-extra,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+else
+	wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
+	wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+fi
 clear
 total=$(ls linux-*.deb | wc -l)
+if [ $NoHeader -eq 1 ];then
+	total=$(($total+2))
+fi
 if [[ $total -eq 3 && ( $VER_B -gt 201304080035 || $VER_B -lt 201206041411 ) ]];then
 	# Don't feel like inverting the above line and merging it with the line that is on this line plus two, so enjoy my sense of humor
 	echo -e "Greetings $USER\n  I ($(hostname)) am now self aware and a sentient being, have a nice day.\n  Oh and by the way SKYNET is now active.\n"
