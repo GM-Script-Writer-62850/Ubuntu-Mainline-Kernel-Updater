@@ -4,9 +4,14 @@ if [ -z "$BASH_VERSION" ];then
 	exit
 fi
 here=$(dirname $0)
+if [ $(apt-cache policy php5 | wc -l) -gt 4 ];then
+	$php="php5"
+else
+	$php="php7.0 php7.0-xml"
+fi
 echo "Need a couple dependencies"
-sudo apt-get install -m curl php5-cli libnotify-bin
-if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php5 || ! -f /usr/bin/notify-send ]];then
+sudo apt-get install -m curl libnotify-bin $php
+if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php || ! -f /usr/bin/notify-send ]];then
 	echo "You did not install the dependencies"
 	echo "You need have the curl, php5, and notify-send commands available for use"
 	exit
