@@ -10,9 +10,9 @@ $k=false;
 $l=false;
 error_reporting(0);
 foreach($argv as $key => $val){
-	if($val=='-no-rc'||val=='--no-rc')
+	if($val=='-no-rc'||$val=='--no-rc')
 		$NO_RC=true;
-	else if($val=="-nh"||val=="--no-header")
+	else if($val=="-nh"||$val=="--no-header")
 		$NO_Header=true;
 	else if($val=='-v'||$val=='--version'){
 		if(!isset($argv[$key+1]))
