@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-// This is a client side php script, as such it needs the php5-cli package to work
+// This is a client side php script, as such it needs the php5-cli or php7.0-cli package to work
 // This script generates a bash script
 $NO_RC=false;
 $NO_Header=false;
