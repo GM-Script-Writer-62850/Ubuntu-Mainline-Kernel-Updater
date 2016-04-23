@@ -13,7 +13,7 @@ echo "Need a couple dependencies"
 sudo apt-get install -m curl libnotify-bin $php
 if [[ ! -f /usr/bin/curl || ! -f /usr/bin/php || ! -f /usr/bin/notify-send ]];then
 	echo "You did not install the dependencies"
-	echo "You need have the curl, php5, and notify-send commands available for use"
+	echo "You need have the curl, php5 or php7, and notify-send commands available for use"
 	exit
 fi
 mkdir -p ~/.config/autostart/
