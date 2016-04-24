@@ -46,8 +46,8 @@ foreach($argv as $key => $val){
 		echo "\t-f tells the script to generate a installer regardless of the current running kernel\n";
 		echo "\t-r overrides the release version\n\t\teg: `".$script." -r raring`\n\t\tWould mean to a only kernels for raring even if you are using quantal\n\t\teg: `".$script." -r \\*`\n\t\tWould mean any release, the asterisk needs to be escaped (backslash or single quotes)\n";
 		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8`\n\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
-		echo "\t-l tells the script to use lowlatency kernels instead of generic (experamental)";
-		echo "\t-nh tells the script to not download the linux header packages (experamental)";
+		echo "\t-l tells the script to use lowlatency kernels instead of generic (experimental)";
+		echo "\t-nh tells the script to not download the linux header packages (experimental)";
 		die("\n");
 	}
 	else if($val=='-l'||$val=='--lowlatency'){
