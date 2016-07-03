@@ -30,11 +30,17 @@ foreach($argv as $key => $val){
 			continue;
 		$r=$argv[$key+1];
 	}
+	else if($val=='-ar'||$val=='--any-release'){
+		$r='*';
+	}
 	else if($val=='-k'||$val=='-f'||$val=='--force'){
 		$k='1.0.0-1-generic';// Very low fake kernel version to ensure new kernel is found
 	}
 	else if ($val=='--debug'){
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+	}
+	else if($val=='-l'||$val=='--lowlatency'||$val=='--low-latency'){
+		$l=true;
 	}
 	else if($val=='-h'||$val=='--help'){
 		$script=strrpos($_SERVER["SCRIPT_NAME"],'/');
@@ -42,16 +48,22 @@ foreach($argv as $key => $val){
 			$script=substr($_SERVER["SCRIPT_NAME"],$script+1);
 		else
 			$script=$_SERVER["SCRIPT_NAME"];
-		echo "Options:\n\t-no-rc sets the script to ignore Release Candidate versions\n";
-		echo "\t-f tells the script to generate a installer regardless of the current running kernel\n";
-		echo "\t-r overrides the release version\n\t\teg: `".$script." -r raring`\n\t\tWould mean to a only kernels for raring even if you are using quantal\n\t\teg: `".$script." -r \\*`\n\t\tWould mean any release, the asterisk needs to be escaped (backslash or single quotes)\n";
-		echo "\t-v is used to specify version series\n\t\teg: `".$script." -v 3.8`\n\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
-		echo "\t-l tells the script to use lowlatency kernels instead of generic (experimental)\n";
-		echo "\t-nh tells the script to not download the linux header packages (experimental)";
+		echo "Options:\n\t-no-rc, --no-rc\n\t\tSets the script to ignore Release Candidate versions\n";
+		echo "\t-f, --force\n\t\tTells the script to generate a installer regardless of the current running kernel\n";
+		echo "\t-r, --release\n\t\tOverrides the release version\n".
+			"\t\t\teg: `".$script." -r raring`\n".
+			"\t\tWould mean to a only kernels for raring even if you are using Quantal\n".
+			"\t\t\teg: `".$script." -r \\*`\n".
+			"\t\tWould mean any release, the asterisk needs to be escaped (backslash or single quotes)\n".
+			"\t\tThis option defaults to the system's release codename, ".substr(shell_exec('lsb_release -sc'),0,-1)."\n";
+		echo "\t-ar, --any-release\n\t\tTells the script to accept kernels for any release series, same as -r \\*\n";
+		echo "\t-v, --version\n\t\tIs used to specify version series\n".
+			"\t\t\teg: `".$script." -v 3.8`\n".
+			"\t\tWould mean to a only accept kernels starting with 3.8 in the version number\n";
+		echo "\t-l, --low-latency\n\t\tTells the script to use low-latency kernels instead of generic (experimental)\n";
+		echo "\t-nh, --no-header\n\t\tTells the script to not download the linux header packages (experimental)\n";
+		echo "\t-h, --help\n\t\tShow this documentation of command options";
 		die("\n");
-	}
-	else if($val=='-l'||$val=='--lowlatency'){
-		$l=true;
 	}
 }
 if(is_bool($r))
@@ -65,6 +77,7 @@ echo "echo -e '\\tAccepting Latest".(is_bool($version)?'':' '.$version)." Kernel
 echo "echo -e '\\tAccepting kernels compiled for $r'\n";
 echo "echo -e '\\tAccepting kernels with a version higher than $k'\n";
 echo "echo -e '\\tAccepting ".($l?'lowlatency':'generic')." kernels'\n";
+echo "echo -e '\\t".($NO_Header?'Excluding':'Including')." kernel headers'\n";
 $url="http://kernel.ubuntu.com/~kernel-ppa/mainline/";
 $html=file_get_contents($url);
 for($i=1;$i<21;$i=$i+1){
