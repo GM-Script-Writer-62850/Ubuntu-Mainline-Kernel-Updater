@@ -104,7 +104,10 @@ else
 	$k=$k[0];
 $dir='';
 for ($i = 5; $i < $links->length; $i++){// 5 is the 1st file in directory
-	$name=substr($links->item($i)->nodeValue,1,-1);
+	$name=substr($links->item($i)->nodeValue,0,-1);
+	if(substr($name,0,1)!='v')// Not a kernel version
+		continue;
+	$name=substr($name,1);
 	if(strpos($name,$r)>0||$r=='*'){
 		if(($NO_RC && strpos($name,'-rc')>0)||(!is_bool($version) && substr($name,0,strlen($version))!=$version))
 			continue;
@@ -147,10 +150,9 @@ else
 echo "\nWHERE=\"$url\"\n";
 echo "VER_A=\"$a\"\n";
 echo "VER_B=\"$b\"\n";
-echo "VER_C=\"".str_replace(Array('-generic','-lowlatency'),'',substr(shell_exec("uname -r"),0,-1))."\"\n\n";
-echo "NoHeader=".($NO_Header?1:0);
+echo "VER_C=\"".str_replace(Array('-generic','-lowlatency'),'',substr(shell_exec("uname -r"),0,-1))."\"\n";
+echo "NoHeader=".($NO_Header?1:0)."\n\n";
 ?>
-
 echo -e '\nInformation:'
 echo -e "\tOrigin: \n\t\t$WHERE\n\tKernel Version:\n\t\t$VER_A"
 echo -e "\tRelease Date:\n\t\t${VER_B:0:4}/${VER_B:4:2}/${VER_B:6:2} @ ${VER_B:8:2}:${VER_B:10:2} (YYYY/MM/DD @ HH:MM)"
