@@ -92,7 +92,7 @@ if(strlen($html)==0)
 	die("echo 'No Internet Access'\nexit\n");
 $DOM=new DOMDocument;
 $DOM->loadHTML($html);
-$links=$DOM->getElementsByTagName('a');
+$links=$DOM->getElementsByTagName('table')->item(0)->getElementsByTagName('a');
 $arr=array();
 $arr2=array();
 $k=explode('-',$k);
@@ -103,12 +103,12 @@ if(!is_bool(strpos($k[1],'rc')))
 else
 	$k=$k[0];
 $dir='';
-for ($i = 0; $i < $links->length; $i++){
+for ($i = 5; $i < $links->length; $i++){// 5 is the 1st file in directory
 	$name=substr($links->item($i)->nodeValue,1,-1);
 	if(strpos($name,$r)>0||$r=='*'){
 		if(($NO_RC && strpos($name,'-rc')>0)||(!is_bool($version) && substr($name,0,strlen($version))!=$version))
 			continue;
-		$name2=substr($name,0,$r=='*'?strrpos($name,'-'):strpos($name,"-$r"));
+		$name2=strrpos($name,'-')===false?$name:substr($name,0,$r=='*'?strrpos($name,'-'):strpos($name,"-$r"));
 		if(version_compare($name2,$k)==1){
 			$k=$name2;
 			array_push($arr,$name2);
@@ -144,8 +144,10 @@ echo "NoHeader=".($NO_Header?1:0);
 
 echo -e '\nInformation:'
 echo -e "\tOrigin: \n\t\t$WHERE\n\tKernel Version:\n\t\t$VER_A"
-echo -e "\tRelease Date:\n\t\t${VER_B:0:4}/${VER_B:4:2}/${VER_B:6:2} @ ${VER_B:8:2}:${VER_B:10:2} (YYYY/MM/DD @ HH:MM)\n"
+echo -e "\tRelease Date:\n\t\t${VER_B:0:4}/${VER_B:4:2}/${VER_B:6:2} @ ${VER_B:8:2}:${VER_B:10:2} (YYYY/MM/DD @ HH:MM)"
 echo -e "\tInstall Linux Header Package:\n\t\t<?php echo $NO_Header?'No':'Yes'; ?>"
+echo -e "Notes:"
+echo -e "\tKernels built as if July 11, 2016 do not have a target release,\n\t\tplease use the --any-release option to get the latest kernel"
 
 if [ "$1" == "--uninstall" ];then
 	if [ "$VER_A" == "$VER_C" ];then
