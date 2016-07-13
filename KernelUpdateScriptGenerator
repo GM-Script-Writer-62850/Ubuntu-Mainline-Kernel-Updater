@@ -92,7 +92,7 @@ if(strlen($html)==0)
 	die("echo 'No Internet Access'\nexit\n");
 $DOM=new DOMDocument;
 $DOM->loadHTML($html);
-$links=$DOM->getElementsByTagName('table')->item(0)->getElementsByTagName('a');
+$links=$DOM->getElementsByTagName('a');
 $arr=array();
 $arr2=array();
 $k=explode('-',$k);
@@ -108,7 +108,16 @@ for ($i = 5; $i < $links->length; $i++){// 5 is the 1st file in directory
 	if(strpos($name,$r)>0||$r=='*'){
 		if(($NO_RC && strpos($name,'-rc')>0)||(!is_bool($version) && substr($name,0,strlen($version))!=$version))
 			continue;
-		$name2=strrpos($name,'-')===false?$name:substr($name,0,$r=='*'?strrpos($name,'-'):strpos($name,"-$r"));
+		if(strrpos($name,'-')===false)
+			$name2=$name;
+		else{
+			$name2=strrpos($name,'-');
+			$name2=substr($name,$name2);
+			if(substr($name2,0,3)=="-rc")
+				$name2=$name;
+			else
+				$name2=substr($name,0,$r=='*'?strrpos($name,'-'):strpos($name,"-$r"));
+		}
 		if(version_compare($name2,$k)==1){
 			$k=$name2;
 			array_push($arr,$name2);
@@ -123,8 +132,8 @@ if(count($arr)>0){
 	$html=file_get_contents($url);
 	$DOM=new DOMDocument;
 	$DOM->loadHTML($html);
-	$links=$DOM->getElementsByTagName('a');
-	for ($i = 0; $i < $links->length; $i++){
+	$links=$DOM->getElementsByTagName('table')->item(0)->getElementsByTagName('a');
+	for ($i = 5; $i < $links->length; $i++){// 5 is the 1st file in directory
 		$name=$links->item($i)->nodeValue;
 		if(strpos($name,'.deb')>0)
 			break;
