@@ -52,7 +52,7 @@ Step 4: Check for kernel update (If you would like a release candidate kernel re
 KernelUpdateChecker -v 3.9 -r saucy
 # You can install 3.10 but it will break some things in raring like nvidia/amd driver as well as virtualbox
 KernelUpdateChecker -r \* -no-rc
-# This would give you the latest stable linux kernel, ignoring the release branch
+# This would give you the latest stable linux kernel, ignoring the release branch; Kernels built as of July 11, 2016 do not have a branch and require the release branch to be set to *
 </code></pre>
 
 Step 5: Install the new kernel (That is the reason you are here right?)
