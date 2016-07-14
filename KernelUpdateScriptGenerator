@@ -52,7 +52,7 @@ foreach($argv as $key => $val){
 		echo "\t-f, --force\n\t\tTells the script to generate a installer regardless of the current running kernel\n";
 		echo "\t-r, --release\n\t\tOverrides the release version\n".
 			"\t\t\teg: `".$script." -r raring`\n".
-			"\t\tWould mean to a only kernels for raring even if you are using Quantal\n".
+			"\t\tWould mean to a only kernels for Raring even if you are using Quantal\n".
 			"\t\t\teg: `".$script." -r \\*`\n".
 			"\t\tWould mean any release, the asterisk needs to be escaped (backslash or single quotes)\n".
 			"\t\tThis option defaults to the system's release codename, ".substr(shell_exec('lsb_release -sc'),0,-1)."\n";
@@ -158,7 +158,7 @@ echo -e "\tOrigin: \n\t\t$WHERE\n\tKernel Version:\n\t\t$VER_A"
 echo -e "\tRelease Date:\n\t\t${VER_B:0:4}/${VER_B:4:2}/${VER_B:6:2} @ ${VER_B:8:2}:${VER_B:10:2} (YYYY/MM/DD @ HH:MM)"
 echo -e "\tInstall Linux Header Package:\n\t\t<?php echo $NO_Header?'No':'Yes'; ?>"
 echo -e "Notes:"
-echo -e "\tKernels built as if July 11, 2016 do not have a target release,\n\t\tplease use the --any-release option to get the latest kernel"
+echo -e "\tKernels built as of July 11, 2016 do not have a target release,\n\t\tplease use the --any-release option to get the latest kernel"
 
 if [ "$1" == "--uninstall" ];then
 	if [ "$VER_A" == "$VER_C" ];then
