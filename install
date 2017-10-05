@@ -7,7 +7,7 @@ here=$(dirname $0)
 if [ $(apt-cache policy php5 | wc -l) -gt 4 ];then
 	php="php5-cli"
 else
-	php="php7.0-cli php7.0-xml"
+	php="php-cli php-xml"
 fi
 echo "Need a couple dependencies"
 sudo apt-get install -m curl libnotify-bin $php
