@@ -220,12 +220,23 @@ if [ "$action" == "y" ];then
 	fi
 fi
 # If I don't need the header package do I need the image-extra package?
-if [ $NoHeader -eq 1 ];then
-	wget -nc $WHERE/linux-{image-extra,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+# amd64 kernels are now signed
+if [ "$arch" == "amd64" ]; then
+	if [ $NoHeader -eq 1 ]; then
+		wget -nc $WHERE/linux-{image-unsigned,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	else
+		wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
+		wget -nc $WHERE/linux-{image-unsigned,modules,headers}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	fi
 else
-	wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-	wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	if [ $NoHeader -eq 1 ];then
+		wget -nc $WHERE/linux-{image-extra,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	else
+		wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
+		wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	fi
 fi
+
 clear
 total=$(ls linux-*.deb | wc -l)
 if [ $NoHeader -eq 1 ];then
