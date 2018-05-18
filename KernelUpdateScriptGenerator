@@ -220,8 +220,8 @@ if [ "$action" == "y" ];then
 	fi
 fi
 # If I don't need the header package do I need the image-extra package?
-# amd64 kernels are now signed
-if [ "$arch" == "amd64" ]; then
+# amd64 kernels are signed as of 4.17-rc2, 201804152230 is the dt for 4.17-rc1
+if [[ "$arch" == "amd64" && ($VER_B -gt 201804152230) ]]; then
 	if [ $NoHeader -eq 1 ]; then
 		wget -nc $WHERE/linux-{image-unsigned,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
 	else
