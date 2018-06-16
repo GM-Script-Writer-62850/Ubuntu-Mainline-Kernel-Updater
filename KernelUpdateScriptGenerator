@@ -12,7 +12,7 @@ error_reporting(0);
 foreach($argv as $key => $val){
 	if($val=='-no-rc'||$val=='--no-rc')
 		$NO_RC=true;
-	else if($val=="-nh"||$val=="--no-header")
+	else if($val=='-nh'||$val=='--no-header')
 		$NO_Header=true;
 	else if($val=='-v'||$val=='--version'){
 		if(!isset($argv[$key+1]))
@@ -241,6 +241,26 @@ clear
 total=$(ls linux-*.deb | wc -l)
 if [ $NoHeader -eq 1 ];then
 	total=$(($total+2))
+else
+	libssl="libssl1.1"
+	if [[ ($VER_B -gt 201804190820) && ($(dpkg-query -l "$libssl" > /dev/null 2>&1;echo $?) -eq 1) ]];then
+		if [ $(apt-cache show $libssl 2&> /dev/null;echo $?) -eq 0 ];then
+			if [ $download -eq 0 ];then
+				if [ $auto -eq 1 ];then
+					sudo apt-get install $libssl -y
+				else
+					echo "Linux headers require $libssl to be installed"
+					echo "The linux headers packages is only needed for a few things like nvidia drivers and virtualbox-dkms"
+					echo "If you do need that you may want to use the --no-header option"
+					sudo apt-get install $libssl
+				fi
+			else
+				echo "The linux headers package requires $libssl and it is not installed"
+			fi
+		else
+			echo "Warning: $libssl is required bit has no installation candidate"
+		fi
+	fi
 fi
 if [[ $total -eq 3 && ( $VER_B -gt 201304080035 || $VER_B -lt 201206041411 ) ]];then
 	# Don't feel like inverting the above line and merging it with the line that is on this line plus two, so enjoy my sense of humor
