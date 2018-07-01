@@ -165,9 +165,9 @@ if [ "$1" == "--uninstall" ];then
 		echo -e "WARNING:\n\tYou are about to un-install the current running kernel,\n\tif you don't have a replacement kernel installed,\n\tyou will not be able to boot."
 	fi
 	if [ $(dpkg-query -l "linux-image-extra-$VER_A-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
-		sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
+		sudo apt-get purge linux-{image-extra,headers,image,image-unsigned}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	else
-		sudo apt-get purge linux-{headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
+		sudo apt-get purge linux-{headers,image,image-unsigned}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	fi
 	exit
 elif [ "$1" == "--silent" ];then
@@ -222,19 +222,16 @@ fi
 # If I don't need the header package do I need the image-extra package?
 # amd64 kernels are signed as of 4.17-rc2, 201804152230 is the dt for 4.17-rc1
 if [[ "$arch" == "amd64" && ($VER_B -gt 201804152230) ]]; then
-	if [ $NoHeader -eq 1 ]; then
-		wget -nc $WHERE/linux-{image-unsigned,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
-	else
-		wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-		wget -nc $WHERE/linux-{image-unsigned,modules,headers}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
-	fi
+	image="image-unsigned"
 else
-	if [ $NoHeader -eq 1 ];then
-		wget -nc $WHERE/linux-{image-extra,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
-	else
-		wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-		wget -nc $WHERE/linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
-	fi
+	image="image"
+fi
+echo "A 404 error is not a problem here"
+if [ $NoHeader -eq 1 ];then
+	wget -nc $WHERE/linux-{image-extra,$image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+else
+	wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
+	wget -nc $WHERE/linux-{image-extra,headers,$image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
 fi
 
 clear
@@ -242,23 +239,42 @@ total=$(ls linux-*.deb | wc -l)
 if [ $NoHeader -eq 1 ];then
 	total=$(($total+2))
 else
-	libssl="libssl1.1"
-	if [[ (<?php echo version_compare($a,'4.16.3'); ?> -eq 1) && ($(dpkg-query -l "$libssl" > /dev/null 2>&1;echo $?) -eq 1) ]];then
-		if [ $(apt-cache show $libssl 2&> /dev/null;echo $?) -eq 0 ];then
-			if [ $download -eq 0 ];then
-				if [ $auto -eq 1 ];then
-					sudo apt-get install $libssl -y
+	# If anyone has a better way please suggest it in a bug report
+	libssl="$(dpkg -I ./linux-headers-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb | grep '^ Depends:' | cut -d':' -f2| sed 's/,/\n/g' | grep libssl | awk '{print $1}')"
+	if [ -n "$libssl" ];then
+		# libssl is required
+		if [ $(dpkg-query -l "$libssl" > /dev/null 2>&1;echo $?) -eq 1 ];then
+			# libssl is not installed
+			if [ $(apt-cache show $libssl 2&> /dev/null;echo $?) -eq 0 ];then
+				# Package is available for installation
+				if [ $download -eq 0 ];then
+					# Install libssl
+					if [ $auto -eq 1 ];then
+						sudo apt-get install $libssl -y
+					else
+						sudo apt-get install $libssl
+					fi
 				else
-					echo "Linux headers require $libssl to be installed"
-					echo "The linux headers packages is only needed for a few things like nvidia drivers and virtualbox-dkms"
-					echo "If you do need that you may want to use the --no-header option"
-					sudo apt-get install $libssl
+					# Download only
+					apt-get download $libssl
 				fi
 			else
-				echo "The linux headers package requires $libssl and it is not installed"
+				echo "Warning: $libssl is required but has no installation candidate"
+				echo -e "\e[41mLinux Headers will NOT be installed!!!\e[0m"
+				echo "The linux headers packages is only needed for a few things like nvidia drivers and virtualbox-dkms"
+				echo "If you do need that you may want to use the --no-header option"
+				if [[ ( $download -eq 0 ) && ( $auto -eq 0 ) ]];then
+					echo -e "\n\nAbort installation? (y=Yes, n=No) (y)"
+					read action
+					if [ "$action" != "n" ];then
+						exit 1
+					fi
+				fi
+				if [ $download -eq 0 ];then
+					rm ./linux-headers-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+					rm ./linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
+				fi
 			fi
-		else
-			echo "Warning: $libssl is required bit has no installation candidate"
 		fi
 	fi
 fi
@@ -268,7 +284,7 @@ if [[ $total -eq 3 && ( $VER_B -gt 201304080035 || $VER_B -lt 201206041411 ) ]];
 elif [ $total -ne 4 ];then
 	echo -e "Failed to download all needed files\nFiles are in $LOC\nGet files from $WHERE\n\nThere should be 4 files, 3 ending with '$arch.deb' and 1 with 'all.deb'\nHere is what we have:"
 	ls $LOC
-	echo -e "\nYou can install what you have by running this command:\n\tsudo dpkg -i $LOC/linux-*.deb\nJust be prepared for broken packages."
+	echo -e "\nYou can install what you have by running this command:\n\tsudo dpkg -i $LOC/*.deb\nJust be prepared for broken packages."
 	exit 1
 fi
 if [ $download -eq 1 ];then
@@ -277,7 +293,7 @@ if [ $download -eq 1 ];then
 	exit 0
 fi
 echo "Installing Linux $VER_A:"
-sudo dpkg -i ./linux-*.deb
+sudo dpkg -i ./*.deb
 if [ -d /lib/modules/$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> ];then
 	echo -e "\nThe New Kernel looks to have been installed"
 	if [ $auto -eq 0 ] && [ "$VER_A" != "$VER_C" ];then
@@ -287,11 +303,11 @@ if [ -d /lib/modules/$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> ];then
 		action="n"
 	fi
 	if [ "$action" == "y" ];then
-		sudo apt-get purge linux-{image-extra,headers,image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
+		sudo apt-get purge linux-{image-extra,headers,$image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
 		if [ $(dpkg-query -l "linux-image-extra-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?>" > /dev/null 2>&1;echo $?) -eq 0 ];then
-			sudo apt-get purge linux-{image-extra,headers,image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
+			sudo apt-get purge linux-{image-extra,headers,$image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
 		else
-			sudo apt-get purge linux-{headers,image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
+			sudo apt-get purge linux-{headers,$image}-$VER_C-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_C
 		fi
 	fi
 else
