@@ -228,12 +228,11 @@ else
 fi
 echo "A 404 error is not a problem here"
 if [ $NoHeader -eq 1 ];then
-	wget -nc $WHERE/linux-{image-extra,$image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	wget -nc $WHERE/linux-{image-extra,$image,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
 else
 	wget -nc $WHERE/linux-headers-$VER_A"_$VER_A"."$VER_B"_all.deb
-	wget -nc $WHERE/linux-{image-extra,headers,$image}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
+	wget -nc $WHERE/linux-{image-extra,headers,$image,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?>_$VER_A."$VER_B"_$arch.deb
 fi
-
 clear
 total=$(ls linux-*.deb | wc -l)
 if [ $NoHeader -eq 1 ];then
@@ -277,6 +276,9 @@ else
 			fi
 		fi
 	fi
+fi
+if [ $VER_B -gt 201806032309 ];then
+	total=$(($total-1))
 fi
 if [[ $total -eq 3 && ( $VER_B -gt 201304080035 || $VER_B -lt 201206041411 ) ]];then
 	# Don't feel like inverting the above line and merging it with the line that is on this line plus two, so enjoy my sense of humor
