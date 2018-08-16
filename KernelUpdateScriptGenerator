@@ -165,9 +165,9 @@ if [ "$1" == "--uninstall" ];then
 		echo -e "WARNING:\n\tYou are about to un-install the current running kernel,\n\tif you don't have a replacement kernel installed,\n\tyou will not be able to boot."
 	fi
 	if [ $(dpkg-query -l "linux-image-extra-$VER_A-generic" > /dev/null 2>&1;echo $?) -eq 0 ];then
-		sudo apt-get purge linux-{image-extra,headers,image,image-unsigned}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
+		sudo apt-get purge linux-{image-extra,headers,image,image-unsigned,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	else
-		sudo apt-get purge linux-{headers,image,image-unsigned}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
+		sudo apt-get purge linux-{headers,image,image-unsigned,modules}-$VER_A-<?php echo ($l?'lowlatency':'generic'); ?> linux-headers-$VER_A
 	fi
 	exit
 elif [ "$1" == "--silent" ];then
