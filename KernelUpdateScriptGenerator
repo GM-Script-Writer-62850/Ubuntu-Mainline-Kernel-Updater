@@ -78,7 +78,7 @@ echo "echo -e '\\tAccepting kernels compiled for $r'\n";
 echo "echo -e '\\tAccepting kernels with a version higher than $k'\n";
 echo "echo -e '\\tAccepting ".($l?'lowlatency':'generic')." kernels'\n";
 echo "echo -e '\\t".($NO_Header?'Excluding':'Including')." kernel headers'\n";
-$url="http://kernel.ubuntu.com/~kernel-ppa/mainline/";
+$url="https://kernel.ubuntu.com/~kernel-ppa/mainline/";
 $html=file_get_contents($url);
 for($i=1;$i<21;$i=$i+1){
 	$html=file_get_contents($url);
@@ -131,8 +131,17 @@ for ($i = 5; $i < $links->length; $i++){// 5 is the 1st file in directory
 if(count($arr)>0){
 	$k=$arr[count($arr)-1];
 	shell_exec("notify-send --icon info 'Update Available' 'Kernel $k is available.'");
-	$url=substr($url.$arr2[count($arr2)-1],0,-1);
+	$url=substr($url.$arr2[count($arr2)-1],0,-1)."/";
+	if(version_compare($k,'5.7.2')>-1){
+		$arch=trim(shell_exec('dpkg --print-architecture'));
+		$url.="$arch/";
+	}
 	$html=file_get_contents($url);
+	if(!html){
+		echo "echo 'Fatal Error: Failed to load content from $url'";
+		shell_exec("notify-send --icon info 'Fatal Error' 'Failed to load content from url'");
+		die("exit\n");
+	}
 	$DOM=new DOMDocument;
 	$DOM->loadHTML($html);
 	$links=$DOM->getElementsByTagName('table')->item(0)->getElementsByTagName('a');
