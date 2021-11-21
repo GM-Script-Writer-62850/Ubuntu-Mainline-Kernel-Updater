@@ -136,7 +136,7 @@ if(count($arr)>0){
 		$arch=trim(shell_exec('dpkg --print-architecture'));
 		$url.="$arch/";
 	}
-	$html=file_get_contents($url);
+	$html=@file_get_contents($url);
 	if(!$html){
 		echo "echo 'Fatal Error: Failed to load content from $url'";
 		shell_exec("notify-send --icon info 'Fatal Error' 'Failed to load content from url'");
